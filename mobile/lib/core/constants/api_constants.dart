@@ -12,7 +12,8 @@ class ApiConstants {
   static const bool _forceProduction =
       bool.fromEnvironment('USE_PRODUCTION', defaultValue: false);
 
-  static bool get isProduction => _forceProduction || kReleaseMode;
+  static bool get isProduction =>
+      _forceProduction || kUseProductionApi || kReleaseMode;
 
   static String get baseUrl {
     if (_override.isNotEmpty) {
@@ -57,7 +58,8 @@ class ApiConstants {
       return !_override.contains('YOUR-DOMAIN');
     }
 
-    return !kProductionApiBaseUrl.contains('YOUR-DOMAIN');
+    return !kProductionApiBaseUrl.contains('YOUR-DOMAIN') &&
+        kProductionApiBaseUrl.startsWith('http');
   }
 
   static String get serverOrigin {

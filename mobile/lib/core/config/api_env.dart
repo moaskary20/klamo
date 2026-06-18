@@ -1,10 +1,9 @@
-/// Production API URL for release builds (APK / App Store).
-///
-/// Replace with your live server address before building for production.
-/// Must include `/api` at the end.
-///
-/// Example: `https://klamo.example.com/api`
-const String kProductionApiBaseUrl = 'https://YOUR-DOMAIN.com/api';
+/// Production API URL (live server).
+const String kProductionApiBaseUrl = 'https://klamo.caesar-agency.co.uk/api';
+
+/// When true, debug and release builds use [kProductionApiBaseUrl].
+/// Set to false only for local development against `php artisan serve`.
+const bool kUseProductionApi = true;
 
 /// LAN IP of your dev machine when testing on a physical phone (same Wi‑Fi).
 /// Leave empty to use the Android emulator address (`10.0.2.2`).
