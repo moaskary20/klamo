@@ -12,6 +12,19 @@ class MediaUrl
             return null;
         }
 
-        return rtrim($request->getSchemeAndHttpHost(), '/').'/storage/'.ltrim($path, '/');
+        $origin = rtrim(self::requestOrigin($request), '/');
+
+        return $origin.'/storage/'.ltrim($path, '/');
+    }
+
+    private static function requestOrigin(Request $request): string
+    {
+        $host = $request->getHost();
+
+        if (in_array($host, ['localhost', '127.0.0.1', '10.0.2.2'], true)) {
+            return rtrim((string) config('app.url'), '/');
+        }
+
+        return $request->getSchemeAndHttpHost();
     }
 }

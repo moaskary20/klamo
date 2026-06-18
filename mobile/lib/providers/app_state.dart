@@ -128,11 +128,17 @@ class AppState extends ChangeNotifier {
   String _connectionErrorMessage(Object error) {
     if (error is ApiException) return error.message;
     if (error is TimeoutException) {
-      return 'انتهت مهلة الاتصال بالسيرفر. تأكد أن Laravel يعمل على ${ApiConstants.baseUrl}';
+      return 'انتهت مهلة الاتصال بالسيرفر (${ApiConstants.baseUrl}). '
+          'تأكد أن السيرفر يعمل وأن عنوان API صحيح.';
     }
     if (error is SocketException) {
+      if (ApiConstants.isProduction && !ApiConstants.isConfiguredForProduction) {
+        return 'عنوان السيرفر غير مضبوط. عدّل kProductionApiBaseUrl في '
+            'mobile/lib/core/config/api_env.dart ثم أعد بناء التطبيق.';
+      }
+
       return 'تعذر الاتصال بالسيرفر (${ApiConstants.baseUrl}). '
-          'على جهاز حقيقي عيّن IP الكمبيوتر في api_constants.dart';
+          'تحقق من الإنترنت وعنوان API.';
     }
     return error.toString();
   }
